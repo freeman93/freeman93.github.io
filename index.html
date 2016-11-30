@@ -239,6 +239,162 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://tangxiaoyang.me/2016/11/30/花两周时间用Python和Scrapy做个小爬虫/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="唐晓阳">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="唐晓阳" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/30/花两周时间用Python和Scrapy做个小爬虫/" itemprop="url">
+                  花两周时间用Python和Scrapy做个小爬虫
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-30T19:52:08+08:00">
+                2016 年 11 月 30 日
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2016/11/30/花两周时间用Python和Scrapy做个小爬虫/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/30/花两周时间用Python和Scrapy做个小爬虫/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>两周前开始准备做爬虫。<br>以前有了解，Python有一个优秀的爬虫框架叫Scrapy，但是自己不怎么会Python，只在2015年的时候稍微看过一下，于是打算从头开始学习，先学Python，再了解爬虫的基础知识，再学习Scrapy，最终做出一个厉害的爬虫。这个爬虫应当具有以下的功能：</p>
+<ul>
+<li>防止被ban</li>
+<li>有效的错误处理</li>
+<li>重复数据的处理</li>
+</ul>
+<p>到昨天，两周过去了，实现了以下的内容：</p>
+<ul>
+<li>了解了Python的基础知识，包括基本语法，数据结构，函数相关，以及面向对象，简单的正则；</li>
+<li>了解了爬虫的基本原理，简单用了下urllib2库；</li>
+<li>使用Scrapy自己写了一个爬虫，爬去了一整个网站，2万多个页面的数据；</li>
+</ul>
+<p>下面来看看学习的情况。</p>
+<h3 id="第一周："><a href="#第一周：" class="headerlink" title="第一周："></a>第一周：</h3><p>学习了Python的基础知识。看的是廖雪峰的Python2.7教程，由于Scrapy对于Python3的支持不够好，所以选择学习Python2.7，这个教程写得简单明了，对于有其他语言经验的选手，可以说学起来毫不费力。</p>
+<h3 id="第二周："><a href="#第二周：" class="headerlink" title="第二周："></a>第二周：</h3><ul>
+<li>先在 一个叫静觅的博客看了几篇关于爬虫的文章，这个博客里面也有几篇文章是讲从0开始学爬虫的；</li>
+<li>之后在知乎看到一个人答案里面说，Scrapy其实性能挺好的，自己撸了一圈爬虫后，发现还不如直接用Scrapy来得好，于是我决定直接开始整Scrapy；</li>
+<li>首先我想到的是去看Scrapy的中文文档，但是后来发现官方的版本已经是1.1.1了，中文文档只有0.24.1，并且照着文档做的时候发现有些地方不太对，没法出应该出现的效果，让我非常沮丧。痛定思痛之后，我决定直接撸最新的英文文档，静下心来，多一点耐心，我发现居然看起来没有什么问题，照着Tutorial敲了一遍；</li>
+<li>我想把数据存入MySQL，但是文档里面没有，于是看了下别人写的一个实例；<br>之后，花了很长时间去配置MySQL，最终也没能成功，在安装MySQL-python的时候一直报错，谷歌百度了N圈也没有办法解决，于是换了个思路决定用MongoDB，后来发现MongoDB的配置极其简单：</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">from pymongo import MongoClient</div><div class="line">class MongoDBPipeline(object):</div><div class="line">    def __init__(self):</div><div class="line">        connection = MongoClient(\'localhost\',27017)</div><div class="line">        db = connection.ws</div><div class="line">        self.ws = db.ipws</div><div class="line">    def process_item(self, item, spider):</div><div class="line">        self.ws.insert(dict(item))</div><div class="line">        return item</div></pre></td></tr></table></figure>
+<p>最后照着<br><a href="http://www.cnblogs.com/mchen/p/5581333.html" target="_blank" rel="external">一个实例</a>里面Spider的逻辑写了一个爬虫，并且将数据存入到MongoDB，代码如下：<br>items代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scrapy</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ipwsItem</span><span class="params">(scrapy.Item)</span>:</span></div><div class="line">    title = scrapy.Field()</div><div class="line">    url = scrapy.Field()</div><div class="line">    num = scrapy.Field()</div><div class="line">    content = scrapy.Field()</div></pre></td></tr></table></figure></p>
+<p>Spider的代码</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1342282-8f854a044bd40f06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<p>Pipeline的代码就是上面贴过的。</p>
+<p>接下来的两周里面，应该做的事情就是：</p>
+<ul>
+<li>抓取ajax生成的数据</li>
+<li>错误处理</li>
+<li>重复数据处理</li>
+<li>防止被ban</li>
+</ul>
+<p>再之后，可能研究下分布式爬虫。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://tangxiaoyang.me/2016/11/30/学习这件小事/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -581,13 +737,20 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           
 
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
           
 
         </nav>
